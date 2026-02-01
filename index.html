@@ -43,6 +43,7 @@
       font-family: -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
       height: 100svh; display: flex; flex-direction: column; overflow: hidden;
       -webkit-tap-highlight-color: transparent;
+      height: calc(var(--vh, 1vh) * 100);
     }
 
     .header { background: var(--tg-header); height: 56px; display: flex; align-items: center; padding: 0 12px; z-index: 10; flex: 0 0 auto; }
@@ -99,6 +100,16 @@
       </div>
       <div class="subs" data-i18n="subscribers">198.4K subscribers</div>
     </div>
+    <script>
+  (function () {
+    function setVh() {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    setVh();
+    window.addEventListener('resize', setVh);
+  })();
+</script>
   </header>
 
   <div class="pinned">
@@ -209,5 +220,6 @@
   </script>
 </body>
 </html>
+
 
 
