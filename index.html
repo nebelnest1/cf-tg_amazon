@@ -33,13 +33,24 @@
     }
 
     * { box-sizing: border-box; }
+    
+    /* FIX 1: Задаем высоту html */
+    html { height: 100%; }
+
     body {
       margin: 0; padding: 0;
       background-color: var(--tg-bg);
       background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
       color: var(--tg-text);
       font-family: -apple-system, BlinkMacSystemFont, "Roboto", sans-serif;
-      height: 100vh; display: flex; flex-direction: column; overflow: hidden;
+      
+      /* FIX 2: Используем dvh для Android Chrome и position: fixed для жесткой рамки */
+      height: 100%; 
+      height: 100dvh; 
+      position: fixed; 
+      inset: 0;
+      
+      display: flex; flex-direction: column; overflow: hidden;
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -53,7 +64,7 @@
     .pinned-title { color: var(--tg-blue); font-weight: 700; display: block; }
     .pinned-text { color: var(--tg-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     
-    /* FIX: Added min-height: 0 to prevent flex item from overflowing container */
+    /* FIX 3: min-height: 0 обязателен, чтобы скролл работал внутри флекса, а не растягивал его */
     .chat { flex: 1 1 auto; overflow-y: auto; min-height: 0; padding: 10px; display: flex; flex-direction: column; -webkit-overflow-scrolling: touch; }
     
     .date-badge { align-self: center; background: rgba(0,0,0,0.3); padding: 3px 12px; border-radius: 15px; font-size: 13px; margin: 10px 0; }
@@ -82,9 +93,7 @@
     .tg-comments-count { color: var(--tg-blue); font-weight: 600; font-size: 14px; }
     .tg-comments-arrow { color: var(--tg-blue); opacity: 0.8; display: flex; align-items: center; }
     
-    /* FIX: Added z-index to ensure visibility */
     .bottom-bar { height: 64px; background: var(--tg-header); display: flex; align-items: center; padding: 0 10px; gap: 8px; flex: 0 0 auto; border-top: 1px solid rgba(0,0,0,0.1); z-index: 20; }
-    
     .bottom-btn-circle { width: 44px; height: 44px; border-radius: 50%; background: var(--tg-panel-btn); display: flex; align-items: center; justify-content: center; color: var(--tg-muted); cursor: pointer; flex-shrink: 0; }
     .bottom-btn-gift { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: var(--tg-muted); flex-shrink: 0; }
     .join-btn { flex: 1; background: var(--tg-blue); color: #fff; height: 44px; border-radius: 22px; border: none; font-weight: 600; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
@@ -183,7 +192,6 @@
       const supportedLangs = ['ar','bn','cs','de','en','es','fa','fil','fr','hi','id','it','ja','ko','ms','nl','no','pl','pt','ro','ru','sk','sv','th','tr','ur','uz','vi','zh'];
       if (!supportedLangs.includes(lang)) lang = 'en';
 
-      // RTL для арабского/персидского/урду
       const rtlLangs = ['ar','fa','ur'];
       document.documentElement.setAttribute('lang', lang);
       document.documentElement.setAttribute('dir', rtlLangs.includes(lang) ? 'rtl' : 'ltr');
